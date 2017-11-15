@@ -166,7 +166,6 @@ namespace Assistant
         private System.Windows.Forms.Label waitDisp;
         private System.Windows.Forms.Button setLTHilight;
         private System.Windows.Forms.CheckBox lthilight;
-        private System.Windows.Forms.CheckBox rememberPwds;
         private System.Windows.Forms.CheckBox blockDis;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox imgFmt;
@@ -236,6 +235,10 @@ namespace Assistant
         private TextBox lineDelayTB;
         private Label lineDelayLbl;
         private Label lineDelayMsLbl;
+        private CheckBox rememberPwds;
+        private Label sysMsgQLbl;
+        private TextBox sysMsgHistoryLen;
+        private Label label20;
 
         private bool m_CanClose = true;
 
@@ -300,6 +303,7 @@ namespace Assistant
             this.m_NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabs = new System.Windows.Forms.TabControl();
             this.generalTab = new System.Windows.Forms.TabPage();
+            this.rememberPwds = new System.Windows.Forms.CheckBox();
             this.clientPrio = new System.Windows.Forms.ComboBox();
             this.btnMap = new System.Windows.Forms.Button();
             this.lockBox = new System.Windows.Forms.PictureBox();
@@ -352,6 +356,7 @@ namespace Assistant
             this.chkForceSpeechHue = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.moreMoreOptTab = new System.Windows.Forms.TabPage();
+            this.sysMsgQLbl = new System.Windows.Forms.Label();
             this.msglvl = new System.Windows.Forms.ComboBox();
             this.forceSizeX = new System.Windows.Forms.TextBox();
             this.forceSizeY = new System.Windows.Forms.TextBox();
@@ -369,7 +374,6 @@ namespace Assistant
             this.alwaysStealth = new System.Windows.Forms.CheckBox();
             this.autoFriend = new System.Windows.Forms.CheckBox();
             this.chkStealth = new System.Windows.Forms.CheckBox();
-            this.rememberPwds = new System.Windows.Forms.CheckBox();
             this.showtargtext = new System.Windows.Forms.CheckBox();
             this.logPackets = new System.Windows.Forms.CheckBox();
             this.rangeCheckLT = new System.Windows.Forms.CheckBox();
@@ -512,6 +516,8 @@ namespace Assistant
             this.homeLink = new System.Windows.Forms.LinkLabel();
             this.wikiLink = new System.Windows.Forms.LinkLabel();
             this.timerTimer = new System.Windows.Forms.Timer(this.components);
+            this.sysMsgHistoryLen = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.tabs.SuspendLayout();
             this.generalTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lockBox)).BeginInit();
@@ -575,6 +581,7 @@ namespace Assistant
             // 
             // generalTab
             // 
+            this.generalTab.Controls.Add(this.rememberPwds);
             this.generalTab.Controls.Add(this.clientPrio);
             this.generalTab.Controls.Add(this.btnMap);
             this.generalTab.Controls.Add(this.lockBox);
@@ -596,6 +603,15 @@ namespace Assistant
             this.generalTab.TabIndex = 0;
             this.generalTab.Text = "General";
             // 
+            // rememberPwds
+            // 
+            this.rememberPwds.Location = new System.Drawing.Point(170, 41);
+            this.rememberPwds.Name = "rememberPwds";
+            this.rememberPwds.Size = new System.Drawing.Size(242, 20);
+            this.rememberPwds.TabIndex = 61;
+            this.rememberPwds.Text = "Remember passwords ";
+            this.rememberPwds.CheckedChanged += new System.EventHandler(this.rememberPwds_CheckedChanged);
+            // 
             // clientPrio
             // 
             this.clientPrio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -606,7 +622,7 @@ namespace Assistant
             "AboveNormal",
             "High",
             "Realtime"});
-            this.clientPrio.Location = new System.Drawing.Point(286, 69);
+            this.clientPrio.Location = new System.Drawing.Point(283, 80);
             this.clientPrio.Name = "clientPrio";
             this.clientPrio.Size = new System.Drawing.Size(88, 21);
             this.clientPrio.TabIndex = 60;
@@ -624,7 +640,7 @@ namespace Assistant
             // 
             this.lockBox.Cursor = System.Windows.Forms.Cursors.Help;
             this.lockBox.Image = ((System.Drawing.Image)(resources.GetObject("lockBox.Image")));
-            this.lockBox.Location = new System.Drawing.Point(396, 51);
+            this.lockBox.Location = new System.Drawing.Point(393, 62);
             this.lockBox.Name = "lockBox";
             this.lockBox.Size = new System.Drawing.Size(16, 16);
             this.lockBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -635,7 +651,7 @@ namespace Assistant
             // 
             // systray
             // 
-            this.systray.Location = new System.Drawing.Point(280, 51);
+            this.systray.Location = new System.Drawing.Point(277, 62);
             this.systray.Name = "systray";
             this.systray.Size = new System.Drawing.Size(86, 16);
             this.systray.TabIndex = 35;
@@ -644,7 +660,7 @@ namespace Assistant
             // 
             // taskbar
             // 
-            this.taskbar.Location = new System.Drawing.Point(218, 51);
+            this.taskbar.Location = new System.Drawing.Point(215, 62);
             this.taskbar.Name = "taskbar";
             this.taskbar.Size = new System.Drawing.Size(64, 16);
             this.taskbar.TabIndex = 34;
@@ -654,7 +670,7 @@ namespace Assistant
             // langSel
             // 
             this.langSel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.langSel.Location = new System.Drawing.Point(228, 93);
+            this.langSel.Location = new System.Drawing.Point(225, 100);
             this.langSel.Name = "langSel";
             this.langSel.Size = new System.Drawing.Size(50, 21);
             this.langSel.TabIndex = 52;
@@ -662,7 +678,7 @@ namespace Assistant
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(170, 97);
+            this.label7.Location = new System.Drawing.Point(167, 103);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(58, 18);
             this.label7.TabIndex = 51;
@@ -670,7 +686,7 @@ namespace Assistant
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(170, 51);
+            this.label11.Location = new System.Drawing.Point(167, 63);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(50, 16);
             this.label11.TabIndex = 33;
@@ -719,7 +735,7 @@ namespace Assistant
             // 
             // showWelcome
             // 
-            this.showWelcome.Location = new System.Drawing.Point(170, 6);
+            this.showWelcome.Location = new System.Drawing.Point(170, 3);
             this.showWelcome.Name = "showWelcome";
             this.showWelcome.Size = new System.Drawing.Size(244, 20);
             this.showWelcome.TabIndex = 26;
@@ -743,7 +759,7 @@ namespace Assistant
             // 
             // alwaysTop
             // 
-            this.alwaysTop.Location = new System.Drawing.Point(170, 25);
+            this.alwaysTop.Location = new System.Drawing.Point(170, 22);
             this.alwaysTop.Name = "alwaysTop";
             this.alwaysTop.Size = new System.Drawing.Size(242, 20);
             this.alwaysTop.TabIndex = 3;
@@ -780,7 +796,7 @@ namespace Assistant
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(170, 73);
+            this.label9.Location = new System.Drawing.Point(167, 82);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(114, 18);
             this.label9.TabIndex = 59;
@@ -1099,6 +1115,9 @@ namespace Assistant
             // 
             // moreMoreOptTab
             // 
+            this.moreMoreOptTab.Controls.Add(this.label20);
+            this.moreMoreOptTab.Controls.Add(this.sysMsgHistoryLen);
+            this.moreMoreOptTab.Controls.Add(this.sysMsgQLbl);
             this.moreMoreOptTab.Controls.Add(this.msglvl);
             this.moreMoreOptTab.Controls.Add(this.forceSizeX);
             this.moreMoreOptTab.Controls.Add(this.forceSizeY);
@@ -1116,7 +1135,6 @@ namespace Assistant
             this.moreMoreOptTab.Controls.Add(this.alwaysStealth);
             this.moreMoreOptTab.Controls.Add(this.autoFriend);
             this.moreMoreOptTab.Controls.Add(this.chkStealth);
-            this.moreMoreOptTab.Controls.Add(this.rememberPwds);
             this.moreMoreOptTab.Controls.Add(this.showtargtext);
             this.moreMoreOptTab.Controls.Add(this.logPackets);
             this.moreMoreOptTab.Controls.Add(this.rangeCheckLT);
@@ -1134,6 +1152,14 @@ namespace Assistant
             this.moreMoreOptTab.TabIndex = 10;
             this.moreMoreOptTab.Text = "More Options";
             // 
+            // sysMsgQLbl
+            // 
+            this.sysMsgQLbl.Location = new System.Drawing.Point(214, 168);
+            this.sysMsgQLbl.Name = "sysMsgQLbl";
+            this.sysMsgQLbl.Size = new System.Drawing.Size(110, 18);
+            this.sysMsgQLbl.TabIndex = 73;
+            this.sysMsgQLbl.Text = "SysMessage History:";
+            // 
             // msglvl
             // 
             this.msglvl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1150,7 +1176,7 @@ namespace Assistant
             // 
             // forceSizeX
             // 
-            this.forceSizeX.Location = new System.Drawing.Point(320, 144);
+            this.forceSizeX.Location = new System.Drawing.Point(318, 124);
             this.forceSizeX.Name = "forceSizeX";
             this.forceSizeX.Size = new System.Drawing.Size(30, 20);
             this.forceSizeX.TabIndex = 63;
@@ -1158,7 +1184,7 @@ namespace Assistant
             // 
             // forceSizeY
             // 
-            this.forceSizeY.Location = new System.Drawing.Point(362, 144);
+            this.forceSizeY.Location = new System.Drawing.Point(360, 124);
             this.forceSizeY.Name = "forceSizeY";
             this.forceSizeY.Size = new System.Drawing.Size(30, 20);
             this.forceSizeY.TabIndex = 64;
@@ -1192,7 +1218,7 @@ namespace Assistant
             // 
             // blockHealPoison
             // 
-            this.blockHealPoison.Location = new System.Drawing.Point(216, 126);
+            this.blockHealPoison.Location = new System.Drawing.Point(214, 106);
             this.blockHealPoison.Name = "blockHealPoison";
             this.blockHealPoison.Size = new System.Drawing.Size(214, 20);
             this.blockHealPoison.TabIndex = 68;
@@ -1209,7 +1235,7 @@ namespace Assistant
             // 
             // potionEquip
             // 
-            this.potionEquip.Location = new System.Drawing.Point(216, 108);
+            this.potionEquip.Location = new System.Drawing.Point(214, 88);
             this.potionEquip.Name = "potionEquip";
             this.potionEquip.Size = new System.Drawing.Size(214, 20);
             this.potionEquip.TabIndex = 67;
@@ -1243,7 +1269,7 @@ namespace Assistant
             // 
             // spellUnequip
             // 
-            this.spellUnequip.Location = new System.Drawing.Point(216, 90);
+            this.spellUnequip.Location = new System.Drawing.Point(214, 70);
             this.spellUnequip.Name = "spellUnequip";
             this.spellUnequip.Size = new System.Drawing.Size(214, 20);
             this.spellUnequip.TabIndex = 39;
@@ -1252,7 +1278,7 @@ namespace Assistant
             // 
             // autoOpenDoors
             // 
-            this.autoOpenDoors.Location = new System.Drawing.Point(216, 72);
+            this.autoOpenDoors.Location = new System.Drawing.Point(214, 52);
             this.autoOpenDoors.Name = "autoOpenDoors";
             this.autoOpenDoors.Size = new System.Drawing.Size(190, 20);
             this.autoOpenDoors.TabIndex = 58;
@@ -1261,7 +1287,7 @@ namespace Assistant
             // 
             // alwaysStealth
             // 
-            this.alwaysStealth.Location = new System.Drawing.Point(216, 54);
+            this.alwaysStealth.Location = new System.Drawing.Point(214, 34);
             this.alwaysStealth.Name = "alwaysStealth";
             this.alwaysStealth.Size = new System.Drawing.Size(190, 20);
             this.alwaysStealth.TabIndex = 57;
@@ -1270,7 +1296,7 @@ namespace Assistant
             // 
             // autoFriend
             // 
-            this.autoFriend.Location = new System.Drawing.Point(216, 18);
+            this.autoFriend.Location = new System.Drawing.Point(214, -2);
             this.autoFriend.Name = "autoFriend";
             this.autoFriend.Size = new System.Drawing.Size(190, 20);
             this.autoFriend.TabIndex = 56;
@@ -1279,21 +1305,12 @@ namespace Assistant
             // 
             // chkStealth
             // 
-            this.chkStealth.Location = new System.Drawing.Point(216, 36);
+            this.chkStealth.Location = new System.Drawing.Point(214, 16);
             this.chkStealth.Name = "chkStealth";
             this.chkStealth.Size = new System.Drawing.Size(190, 20);
             this.chkStealth.TabIndex = 12;
             this.chkStealth.Text = "Count stealth steps";
             this.chkStealth.CheckedChanged += new System.EventHandler(this.chkStealth_CheckedChanged);
-            // 
-            // rememberPwds
-            // 
-            this.rememberPwds.Location = new System.Drawing.Point(216, 0);
-            this.rememberPwds.Name = "rememberPwds";
-            this.rememberPwds.Size = new System.Drawing.Size(190, 20);
-            this.rememberPwds.TabIndex = 54;
-            this.rememberPwds.Text = "Remember passwords ";
-            this.rememberPwds.CheckedChanged += new System.EventHandler(this.rememberPwds_CheckedChanged);
             // 
             // showtargtext
             // 
@@ -1306,7 +1323,7 @@ namespace Assistant
             // 
             // logPackets
             // 
-            this.logPackets.Location = new System.Drawing.Point(216, 164);
+            this.logPackets.Location = new System.Drawing.Point(214, 144);
             this.logPackets.Name = "logPackets";
             this.logPackets.Size = new System.Drawing.Size(186, 18);
             this.logPackets.TabIndex = 50;
@@ -1357,7 +1374,7 @@ namespace Assistant
             // 
             // label18
             // 
-            this.label18.Location = new System.Drawing.Point(350, 148);
+            this.label18.Location = new System.Drawing.Point(348, 128);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(10, 18);
             this.label18.TabIndex = 66;
@@ -1374,7 +1391,7 @@ namespace Assistant
             // 
             // gameSize
             // 
-            this.gameSize.Location = new System.Drawing.Point(216, 146);
+            this.gameSize.Location = new System.Drawing.Point(214, 126);
             this.gameSize.Name = "gameSize";
             this.gameSize.Size = new System.Drawing.Size(114, 18);
             this.gameSize.TabIndex = 65;
@@ -2693,6 +2710,23 @@ namespace Assistant
             this.timerTimer.Interval = 5;
             this.timerTimer.Tick += new System.EventHandler(this.timerTimer_Tick);
             // 
+            // sysMsgHistoryLen
+            // 
+            this.sysMsgHistoryLen.Location = new System.Drawing.Point(322, 166);
+            this.sysMsgHistoryLen.MaxLength = 3;
+            this.sysMsgHistoryLen.Name = "sysMsgHistoryLen";
+            this.sysMsgHistoryLen.Size = new System.Drawing.Size(30, 20);
+            this.sysMsgHistoryLen.TabIndex = 74;
+            this.sysMsgHistoryLen.TextChanged += new System.EventHandler(this.sysMsgHistoryLen_TextChanged);
+            // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(356, 168);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(30, 18);
+            this.label20.TabIndex = 75;
+            this.label20.Text = "lines";
+            // 
             // MainForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -2994,6 +3028,7 @@ namespace Assistant
             hotkeyTree.SelectedNode = null;
 
             lineDelayTB.Text = Config.GetInt("MacroLineDelay").ToString();
+            sysMsgHistoryLen.Text = Config.GetInt("SysMessageHistoryLen").ToString();
 
             m_Initializing = false;
         }
@@ -5996,6 +6031,16 @@ namespace Assistant
             int delayms; 
             Config.SetProperty("MacroLineDelay", (delayms = Utility.ToInt32(lineDelayTB.Text.Trim(), Config.GetInt("MacroLineDelay"))));
             MacroManager.MacroLineDelay = TimeSpan.FromMilliseconds(delayms);
+        }
+
+        private void sysMsgHistoryLen_TextChanged(object sender, EventArgs e)
+        {
+            int len = Utility.ToInt32(sysMsgHistoryLen.Text.Trim(), Config.GetInt("SysMessageHistoryLen"));
+            if (len > 0) {
+                Config.SetProperty("SysMessageHistoryLen", len);
+                PacketHandlers.SysMessageQLimit = len;
+                //PacketHandlers.PruneSysMessages(); // in case new len is smaller than old len
+            }
         }
     }
 }

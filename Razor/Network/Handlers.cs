@@ -1775,7 +1775,18 @@ namespace Assistant
             Item.UpdateContainers();
         }
 
-        public static ArrayList SysMessages = new ArrayList( 21 );
+        public static int SysMessageQLimit = 24;
+        public static ArrayList SysMessages = new ArrayList(SysMessageQLimit + 4);
+        public static ArrayList PlayerMessages = new ArrayList(SysMessageQLimit + 4);
+
+        public static void PruneSysMessages()
+        {
+            const int N = 10;
+            while (SysMessageQLimit > 0 && SysMessages.Count > SysMessageQLimit)
+                SysMessages.RemoveRange(0,SysMessages.Count < N ? SysMessages.Count-SysMessageQLimit : N);
+            while (SysMessageQLimit > 0 && PlayerMessages.Count > SysMessageQLimit)
+                PlayerMessages.RemoveRange(0, PlayerMessages.Count < N ? PlayerMessages.Count - SysMessageQLimit : N);
+        }
 
         public static void HandleSpeech( Packet p, PacketHandlerEventArgs args, Serial ser, ushort body, MessageType type, ushort hue, ushort font, string lang, string name, string text )
         {
@@ -1786,9 +1797,12 @@ namespace Assistant
             {
                 SysMessages.Add( text.ToLower() );
 
-                int cnt = SysMessages.Count;
-                if ( cnt >= 25 )
-                    SysMessages.RemoveRange( 0, cnt-24 );
+                if (ser == World.Player.Serial)
+                {
+                    PlayerMessages.Add(text.ToLower());
+                }
+
+                PruneSysMessages();
             }
 
             if ( type == MessageType.Spell )

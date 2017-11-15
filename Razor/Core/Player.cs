@@ -848,9 +848,8 @@ namespace Assistant
 
                 PacketHandlers.SysMessages.Add( text.ToLower() );
 
-                int cnt = PacketHandlers.SysMessages.Count; 
-                if ( cnt >= 25 )
-                    PacketHandlers.SysMessages.RemoveRange( 0, cnt-24 );
+                PacketHandlers.PruneSysMessages();
+
             }
         }
 

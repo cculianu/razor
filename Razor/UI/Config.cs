@@ -138,6 +138,7 @@ namespace Assistant
             AddProperty( "PartyStatFmt", "[{0}% / {1}%]" );
 
             AddProperty("MacroLineDelay", 50);
+            AddProperty("SysMessageHistoryLen", 24);
 
             Counter.Default();
             Filter.DisableAll();
