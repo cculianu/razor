@@ -4,35 +4,35 @@
 
 struct UOItem
 {
-	int RealWidth;
-	int RealHeight;
+    int RealWidth;
+    int RealHeight;
 
-	int Left;
-	int Top;
-	int Bottom;
-	int Right;
+    int Left;
+    int Top;
+    int Bottom;
+    int Right;
 
-	int GetWidth() const { return Right - Left; }
-	int GetHeight() const { return Bottom - Top; }
+    int GetWidth() const { return Right - Left; }
+    int GetHeight() const { return Bottom - Top; }
 
-	unsigned short **Data; // [ReadlWidth][RealHeight] 32bit color data
+    unsigned short **Data; // [ReadlWidth][RealHeight] 32bit color data
 
-	int ItemID;
-	UOItem *pNext;
+    int ItemID;
+    UOItem *pNext;
 };
 
 struct ArtIdx
 {
-	long FilePos;
-	long Length;
-	long Unused;
+    long FilePos;
+    long Length;
+    long Unused;
 };
 
 struct ArtHeader
 {
-	long Unknown;
-	short Width;
-	short Height;
-	//followed by short LookupTable
+    long Unknown;
+    short Width;
+    short Height;
+    //followed by short LookupTable
 };
 

@@ -102,15 +102,15 @@ namespace Updater
         [Flags]
         private enum ArchiveFlags : uint
         {
-            Volume = 0x1,										// Volume attribute (archive volume)
-            CommentPresent = 0x2,						// Archive comment present
-            Lock = 0x4,											// Archive lock attribute
-            SolidArchive = 0x8,							// Solid attribute (solid archive)
-            NewNamingScheme = 0x10,					// New volume naming scheme ('volname.partN.rar')
-            AuthenticityPresent = 0x20,			// Authenticity information present
-            RecoveryRecordPresent = 0x40,		// Recovery record present
-            EncryptedHeaders = 0x80,				// Block headers are encrypted
-            FirstVolume = 0x100							// 0x0100  - First volume (set only by RAR 3.0 and later)
+            Volume = 0x1,                                        // Volume attribute (archive volume)
+            CommentPresent = 0x2,                        // Archive comment present
+            Lock = 0x4,                                            // Archive lock attribute
+            SolidArchive = 0x8,                            // Solid attribute (solid archive)
+            NewNamingScheme = 0x10,                    // New volume naming scheme ('volname.partN.rar')
+            AuthenticityPresent = 0x20,            // Authenticity information present
+            RecoveryRecordPresent = 0x40,        // Recovery record present
+            EncryptedHeaders = 0x80,                // Block headers are encrypted
+            FirstVolume = 0x100                            // 0x0100  - First volume (set only by RAR 3.0 and later)
         }
 
         private enum CallbackMessages : uint

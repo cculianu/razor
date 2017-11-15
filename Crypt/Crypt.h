@@ -12,109 +12,109 @@
 
 enum IError
 {
-	SUCCESS,
-	NO_UOWND,
-	NO_TID,
-	NO_HOOK,
-	NO_SHAREMEM,
-	LIB_DISABLED,
-	NO_PATCH,
-	NO_COPY,
-	INVALID_PARAMS,
+    SUCCESS,
+    NO_UOWND,
+    NO_TID,
+    NO_HOOK,
+    NO_SHAREMEM,
+    LIB_DISABLED,
+    NO_PATCH,
+    NO_COPY,
+    INVALID_PARAMS,
 
-	UNKNOWN,
+    UNKNOWN,
 };
 
 enum UONET_MESSAGE
 {
-	SEND = 1,
-	RECV = 2,
-	READY = 3,
-	NOT_READY = 4,
-	CONNECT = 5,
-	DISCONNECT = 6,
-	KEYDOWN = 7,
-	MOUSE = 8,
+    SEND = 1,
+    RECV = 2,
+    READY = 3,
+    NOT_READY = 4,
+    CONNECT = 5,
+    DISCONNECT = 6,
+    KEYDOWN = 7,
+    MOUSE = 8,
 
-	ACTIVATE = 9,
-	FOCUS = 10,
+    ACTIVATE = 9,
+    FOCUS = 10,
 
-	CLOSE = 11,
-	STAT_BAR = 12,
-	NOTO_HUE = 13,
-	DLL_ERROR = 14,
+    CLOSE = 11,
+    STAT_BAR = 12,
+    NOTO_HUE = 13,
+    DLL_ERROR = 14,
 
-	DEATH_MSG = 15,
+    DEATH_MSG = 15,
 
-	CALIBRATE_POS = 16,
-	GET_POS = 17,
+    CALIBRATE_POS = 16,
+    GET_POS = 17,
 
-	OPEN_RPV = 18,
+    OPEN_RPV = 18,
 
-	SETWNDSIZE = 19,
+    SETWNDSIZE = 19,
 
-	FINDDATA = 20,
+    FINDDATA = 20,
 
-	SMART_CPU = 21,
-	NEGOTIATE = 22,
-	SET_MAP_HWND = 23,
-// ZIPPY REV 80	SET_FWD_HWND = 24,
+//    SMART_CPU = 21,
+    NEGOTIATE = 22,
+    SET_MAP_HWND = 23,
+// ZIPPY REV 80    SET_FWD_HWND = 24,
 };
 
 //#define SHARED_BUFF_SIZE 0x80000 // Client's buffers are 500k
 #define SHARED_BUFF_SIZE 524288 // 262144 // 250k
 struct Buffer
 {
-	int Length;
-	int Start;
-	BYTE Buff[SHARED_BUFF_SIZE];
+    int Length;
+    int Start;
+    BYTE Buff[SHARED_BUFF_SIZE];
 };
 
 struct SharedMemory
 {
-	// Do *not* mess with this struct.  Really.  I mean it.
-	Buffer InRecv;
-	Buffer OutRecv;
-	Buffer InSend;
-	Buffer OutSend;
+    // Do *not* mess with this struct.  Really.  I mean it.
+    Buffer InRecv;
+    Buffer OutRecv;
+    Buffer InSend;
+    Buffer OutSend;
 
-	char TitleBar[1024];
-	bool ForceDisconn;
-	bool AllowDisconn;
-	unsigned int TotalSend;
-	unsigned int TotalRecv;
-	unsigned short PacketTable[256];
-	char DataPath[256];
-	char DeathMsg[16];
-	int Position[3];
-	unsigned char CheatKey[16];
-	bool AllowNegotiate;
-	unsigned char AuthBits[8];
-	bool IsHaxed;
-	unsigned int ServerIP;
-	unsigned short ServerPort;
-	char UOVersion[16];
+    char TitleBar[1024];
+    bool ForceDisconn;
+    bool AllowDisconn;
+    unsigned int TotalSend;
+    unsigned int TotalRecv;
+    unsigned short PacketTable[256];
+    char DataPath[256];
+    char DeathMsg[16];
+    int Position[3];
+    unsigned char CheatKey[16];
+    bool AllowNegotiate;
+    unsigned char AuthBits[8];
+    bool IsHaxed;
+    unsigned int ServerIP;
+    unsigned short ServerPort;
+    char UOVersion[16];
 };
 
 class PatchInfo
 {
 public:
-	PatchInfo( DWORD addr, int len )
-	{
-		Address = addr;
-		Length = len;
-		Data = new char[Length];
-		memcpy( Data, (const void*)Address, Length );
-	}
+    PatchInfo( DWORD addr, int len )
+    {
+        Address = addr;
+        Length = len;
+        Data = new char[Length];
+        memcpy( Data, (const void*)Address, Length );
+    }
 
-	~PatchInfo()
-	{
-		delete[] Data;
-	}
+    ~PatchInfo()
+    {
+        delete[] Data;
+    }
 
-	DWORD Address;
-	int Length;
-	char *Data;
+    DWORD Address;
+    int Length;
+    char *Data;
 };
 
 #define WM_PROCREADY WM_USER
