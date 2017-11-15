@@ -3083,7 +3083,7 @@ namespace Assistant
 			if (String.IsNullOrEmpty(statusBox.SelectedText))
 			{
 				statusBox.Lines = Language.Format(LocString.RazorStatus1,
-					m_Ver,
+					m_Ver + " Calin Custom",
 					Utility.FormatSize(System.GC.GetTotalMemory(false)),
 					Utility.FormatSize(m_OutPrev), Utility.FormatSize((long)((m_OutPrev - ps))),
 					Utility.FormatSize(m_InPrev), Utility.FormatSize((long)((m_InPrev - pr))),

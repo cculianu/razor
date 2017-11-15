@@ -283,8 +283,9 @@ namespace Assistant.Macros
 		private class MacroTimer : Timer
 		{
 			private Macro m_Macro;
+            private static double macroStepTimeMS = 10;
 			
-			public MacroTimer() : base( TimeSpan.FromMilliseconds( 50 ), TimeSpan.FromMilliseconds( 50 ) )
+			public MacroTimer() : base( TimeSpan.FromMilliseconds( macroStepTimeMS ), TimeSpan.FromMilliseconds( macroStepTimeMS ) )
 			{
 			}
 
