@@ -1,6 +1,55 @@
+Razor (v1.5.0.0) "Calin Custom" Changelog:
+
+Calin Culianu <calin.culianu@gmail.com>
+
+Note: This version is not from the original developer of Razor, Mark Sturgill.
+He hasn't updated Razor in quite some time.  As such, I went ahead and
+modified Razor to add some much needed features.  Email me with
+questions/comments/hatemail/etc.
+
+* Executables and libraries are no longer cryptographically signed (I lack MS
+  Dev keys to do this).
+  
+* Got rid of the startup update check as it's broken and leads to slow startup
+  times.
+  
+* Added "PlayerMessage" message type to the "If" macro language.  Player
+  messages are a subset of system messages, and they are only messages
+  originating *on* the player (such as crystals or purple pot countdowns).
+  
+* Added "=MatchString" syntax to the SysMessage/PlayerMessage "If"
+  conditional.  If a string is prefixed with '=', then an exact match is
+  performed, rather than the usual substring match.  This is useful for having
+  macros such as purple pot counters not get triggered erroneously by any
+  message containging eg. '1'. So for purples, set the message to '=1' and
+  only strings that exactly match '1' will be matched.
+  
+* Added 'Exec. delay:' to the macro tab.  The previous default Razor delay for
+  macro statements was 50 ms.  This default can get slow with long macros.  So
+  now you can set it as low or as high as you like, so that macros with many
+  comments or complex macros run FAST. A good value is 5 ms or even 1 ms.
+  
+* Added 'SysMessage History' config variable to the 'More Options' pane.
+  This specifies the number of lines to keep in memory for
+  SysMessage/PlayerMessage checks.  Old default was 24.  Useful for complex
+  macros that want to keep a lot of state in memory. Note that as usual
+  whenever a SysMessage/PlayerMessage matches, the history lines up to that
+  match get purged.   This was the way Razor has always behaved and I haven't
+  messed with that.  This feature just   allows you to optionally keep track of
+  un-processed SysMessages for a longer time, if you   wish.
+  
+* Got rid of the   really *bad* 'Smart CPU' feature that even Razor docs
+  recommend you don't   use.   This feature introduces delays into the protocol
+  layer (to save on   polling the network)   and all it can really do is create
+  lag without much benefit on modern CPUs.
+
+------------------------------------------------------------------------------
+
 Razor (v1.4.0.*) Changelog:
 Update Razor project to .NET 4.0
 All executables and libraries are cryptographically signed
+
+------------------------------------------------------------------------------
 
 Razor (v1.0.13.*) Changelog:
 * Minor server list entry fixes

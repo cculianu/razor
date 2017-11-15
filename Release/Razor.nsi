@@ -8,7 +8,7 @@
 
   ;Name and file
   Name "Razor"
-  OutFile "Razor1013_Inst.exe"
+  OutFile "Razor_Calin_1_15_Inst.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Razor"
@@ -76,7 +76,7 @@ Section "Razor"
   File ".\Razor.exe"
   File ".\RPVOpenStub.exe"
   ;File ".\RPVEditor.exe"
-  File ".\Updater.exe"
+  ;File ".\Updater.exe"
   File ".\unrar.dll"
   File ".\Crypt.dll"
   File ".\Loader.dll"
@@ -139,8 +139,10 @@ Section "Uninstall"
   Delete "$INSTDIR\Crash.log"
   Delete "$INSTDIR\changelog.txt"
   Delete "$INSTDIR\Guardlines.def"
-
+  Delete "$INSTDIR\unrar.dll"
+  
   Delete "$INSTDIR\Newtonsoft.Json.dll"
+  
 
   RMDir /r "$INSTDIR\Language"
 
