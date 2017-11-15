@@ -338,6 +338,13 @@ namespace Assistant.Macros
         }
 
         private static MacroWaitAction PauseB4Loop = new PauseAction( TimeSpan.FromSeconds( 0.1 ) );
+
+        public static TimeSpan LoopDelay
+        {
+            get { return PauseB4Loop.Timeout; }
+            set { PauseB4Loop.Timeout = value; }
+        }
+
         //return true to continue the macro, false to stop (macro's over)
         public bool ExecNext()
         {

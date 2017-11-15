@@ -6031,6 +6031,7 @@ namespace Assistant
             int delayms; 
             Config.SetProperty("MacroLineDelay", (delayms = Utility.ToInt32(lineDelayTB.Text.Trim(), Config.GetInt("MacroLineDelay"))));
             MacroManager.MacroLineDelay = TimeSpan.FromMilliseconds(delayms);
+            Macros.Macro.LoopDelay = TimeSpan.FromMilliseconds(delayms * 2);
         }
 
         private void sysMsgHistoryLen_TextChanged(object sender, EventArgs e)

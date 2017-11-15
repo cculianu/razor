@@ -71,7 +71,7 @@ namespace Assistant.Macros
         }
 
         public abstract bool PerformWait();
-        public TimeSpan Timeout { get{ return m_Timeout; } }
+        public TimeSpan Timeout { get { return m_Timeout; } set { m_Timeout = value; } }
         public DateTime StartTime{ get{ return m_Start; } set{ m_Start = value; } }
 
         public MacroMenuItem EditTimeoutMenuItem 
