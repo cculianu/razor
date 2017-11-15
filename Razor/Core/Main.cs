@@ -191,9 +191,11 @@ namespace Assistant
             Directory.SetCurrentDirectory( Config.GetInstallDirectory() );
 #endif
 
-            CheckUpdaterFiles();
+            // removed by Calin -- no updater support for now
+            //CheckUpdaterFiles();
 
-            if ( ClientCommunication.InitializeLibrary( Engine.Version ) == 0 || !File.Exists( Path.Combine( Config.GetInstallDirectory(), "Updater.exe" ) ) )
+            if ( ClientCommunication.InitializeLibrary( Engine.Version ) == 0 /* below condition removed by Calin as we don't need the updater anyway...
+                                                                               * || !File.Exists( Path.Combine( Config.GetInstallDirectory(), "Updater.exe" ) )*/ )
                 throw new InvalidOperationException( "This Razor installation is corrupted." );
 
             try { Engine.ShardList = Config.GetRegString(Microsoft.Win32.Registry.CurrentUser, "ShardList"); }
@@ -201,7 +203,8 @@ namespace Assistant
 
             DateTime lastCheck = DateTime.MinValue;
             try { lastCheck = DateTime.FromFileTime( Convert.ToInt64( Config.GetRegString( Microsoft.Win32.Registry.CurrentUser, "UpdateCheck" ), 16 ) ); } catch { }
-            if ( lastCheck + TimeSpan.FromHours( 3.0 ) < DateTime.Now )
+            /* // remove by Calin -- no updater support.  This leads to faster startup times anyway...
+             if ( lastCheck + TimeSpan.FromHours( 3.0 ) < DateTime.Now )
             {
                 SplashScreen.Start();
                 m_ActiveWnd = SplashScreen.Instance;
@@ -209,7 +212,7 @@ namespace Assistant
                 // disabled for our custom version...
                 //CheckForUpdates();
                 Config.SetRegString( Microsoft.Win32.Registry.CurrentUser, "UpdateCheck", String.Format( "{0:X16}", DateTime.Now.ToFileTime() ) );
-            }
+            }*/
 
             bool patch = Utility.ToInt32( Config.GetRegString( Microsoft.Win32.Registry.CurrentUser, "PatchEncy" ), 1 ) != 0;
             bool showWelcome = Utility.ToInt32( Config.GetRegString( Microsoft.Win32.Registry.CurrentUser, "ShowWelcome" ), 1 ) != 0;
