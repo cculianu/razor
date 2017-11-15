@@ -22,6 +22,10 @@ namespace Assistant
         private System.Windows.Forms.ComboBox varList;
         private System.Windows.Forms.ComboBox opList;
         private System.Windows.Forms.Label label1;
+
+        private IfAction.IfVarType[] cb2IfVar; // combobox index -> ifvar type association
+        private int[] ifVar2Cb;
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -108,6 +112,7 @@ namespace Assistant
                                                           "Stamina",
                                                           "Poisoned",
                                                           "SysMessage",
+                                                          "PlayerMessage",
                                                           "Weight",
                                                           "Mounted",
                                                           "R Hand Empty",
@@ -117,7 +122,26 @@ namespace Assistant
             this.varList.Size = new System.Drawing.Size(80, 21);
             this.varList.TabIndex = 8;
             this.varList.SelectedIndexChanged += new System.EventHandler(this.varList_SelectedIndexChanged);
+            //
+            // cb2IfVar mapping
             // 
+            cb2IfVar = new IfAction.IfVarType[] { 
+                IfAction.IfVarType.Hits,
+                IfAction.IfVarType.Mana,
+                IfAction.IfVarType.Stamina,
+                IfAction.IfVarType.Poisoned,
+                IfAction.IfVarType.SysMessage,
+                IfAction.IfVarType.PlayerMessage,
+                IfAction.IfVarType.Weight,
+                IfAction.IfVarType.Mounted,
+                IfAction.IfVarType.RHandEmpty,
+                IfAction.IfVarType.LHandEmpty 
+            };
+
+            ifVar2Cb = new int[] {
+                0,1,2,3,4,6,7,8,9,5
+            };
+
             // cancel
             // 
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -181,12 +205,13 @@ namespace Assistant
 
             try
             {
-                if ( varList.SelectedIndex == (int)IfAction.IfVarType.SysMessage )
-                    a = new IfAction( (IfAction.IfVarType)varList.SelectedIndex, txtAmount.Text );
-                else if ( varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker )
+                IfAction.IfVarType selType = varList.SelectedIndex < cb2IfVar.Length ? cb2IfVar[varList.SelectedIndex] : IfAction.IfVarType.BeginCountersMarker;
+                if ( selType == IfAction.IfVarType.SysMessage || selType == IfAction.IfVarType.PlayerMessage)
+                    a = new IfAction( selType, txtAmount.Text );
+                else if ( selType >= IfAction.IfVarType.BeginCountersMarker )
                     a = new IfAction( IfAction.IfVarType.Counter, (sbyte)opList.SelectedIndex, Utility.ToInt32( txtAmount.Text, 0 ), varList.SelectedItem as string );
                 else
-                    a = new IfAction( (IfAction.IfVarType)varList.SelectedIndex, (sbyte)opList.SelectedIndex, Utility.ToInt32( txtAmount.Text, 0 ) );
+                    a = new IfAction( selType, (sbyte)opList.SelectedIndex, Utility.ToInt32( txtAmount.Text, 0 ) );
             }
             catch
             {
@@ -207,11 +232,14 @@ namespace Assistant
 
             if ( m_Action is IfAction )
             {
-                try { varList.SelectedIndex = (int)((IfAction)m_Action).Variable; } catch {}
+                try {
+                    int n = (int)((IfAction)m_Action).Variable;
+                    varList.SelectedIndex = n < ifVar2Cb.Length ? ifVar2Cb[n] : n; 
+                } catch {}
                 try { opList.SelectedIndex = (int)((IfAction)m_Action).Op; } catch {}
                 try
                 {
-                    if ( varList.SelectedIndex != 3 && ( varList.SelectedIndex <= 5 || varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker ) )
+                    if ( varList.SelectedIndex != 3 && ( varList.SelectedIndex <= 6 || varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker ) )
                         txtAmount.Text = ((IfAction)m_Action).Value.ToString();
                 }
                 catch
@@ -227,8 +255,8 @@ namespace Assistant
         {
             try
             {
-                opList.Visible = varList.SelectedIndex < 3 || varList.SelectedIndex == 5 || varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker;
-                txtAmount.Visible = varList.SelectedIndex != 3 && ( varList.SelectedIndex <= 5 || varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker );
+                opList.Visible = varList.SelectedIndex < 3 || varList.SelectedIndex == 6 || varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker;
+                txtAmount.Visible = varList.SelectedIndex != 3 && ( varList.SelectedIndex <= 6 || varList.SelectedIndex >= (int)IfAction.IfVarType.BeginCountersMarker );
             }
             catch
             {

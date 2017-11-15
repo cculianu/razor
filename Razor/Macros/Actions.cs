@@ -1992,6 +1992,8 @@ namespace Assistant.Macros
             RHandEmpty,
             LHandEmpty,
 
+            PlayerMessage, ///< Added by Calin to support player-only messages such as purple pots still held by player
+
             BeginCountersMarker,
 
             Counter = 50,
@@ -2022,7 +2024,7 @@ namespace Assistant.Macros
                 m_Direction = -1;
             }
 
-            if ( m_Var != IfVarType.SysMessage )
+            if ( m_Var != IfVarType.SysMessage && m_Var != IfVarType.PlayerMessage )
                 m_Value = Convert.ToInt32( args[3] );
             else
                 m_Value = args[3].ToLower();
@@ -2117,6 +2119,7 @@ namespace Assistant.Macros
                         return false;
                 }
 
+                case IfVarType.PlayerMessage:
                 case IfVarType.SysMessage:
                 {
                     string text = (string)m_Value;
@@ -2130,11 +2133,16 @@ namespace Assistant.Macros
                     else
                         exactText = null;
 
-                    for(int i=PacketHandlers.SysMessages.Count-1;i>=0;i--)
+                    ArrayList theList = 
+                        m_Var == IfVarType.SysMessage 
+                        ? PacketHandlers.SysMessages 
+                        : PacketHandlers.PlayerMessages;
+
+                    for(int i=theList.Count-1;i>=0;i--)
                     {
                         bool matched = false;
 
-                        string sys = (string)PacketHandlers.SysMessages[i];
+                        string sys = (string)theList[i];
                         if (exactText != null && sys.Trim().Equals(exactText))
                         {
                             // exact match requested...
@@ -2146,7 +2154,7 @@ namespace Assistant.Macros
                         }
 
                         if (matched) {
-                            PacketHandlers.SysMessages.RemoveRange( 0, i+1 );
+                            theList.RemoveRange( 0, i+1 );
                             return true;
                         }
                     }
@@ -2210,6 +2218,13 @@ namespace Assistant.Macros
                     if ( str.Length > 10 )
                         str = str.Substring( 0, 7 ) + "...";
                     return String.Format( "If ( SysMessage \"{0}\" )", str );
+                }
+                case IfVarType.PlayerMessage:
+                {
+                    string str = (string)m_Value;
+                    if (str.Length > 10)
+                        str = str.Substring(0, 7) + "...";
+                    return String.Format("If ( PlayerMsg \"{0}\" )", str);
                 }
                 case IfVarType.Mounted:
                     return "If ( Mounted )";
