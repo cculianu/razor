@@ -2144,9 +2144,9 @@ namespace Assistant
             this.lineDelayLbl.AutoSize = true;
             this.lineDelayLbl.Location = new System.Drawing.Point(186, 67);
             this.lineDelayLbl.Name = "lineDelayLbl";
-            this.lineDelayLbl.Size = new System.Drawing.Size(58, 13);
+            this.lineDelayLbl.Size = new System.Drawing.Size(65, 13);
             this.lineDelayLbl.TabIndex = 7;
-            this.lineDelayLbl.Text = "Line delay:";
+            this.lineDelayLbl.Text = "Exec. delay:";
             // 
             // lineDelayTB
             // 
