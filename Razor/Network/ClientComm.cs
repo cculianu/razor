@@ -56,7 +56,7 @@ namespace Assistant
             OpenRPV = 18,
             SetGameSize = 19,
             FindData = 20,
-            SmartCPU = 21,
+//            SmartCPU = 21,
             Negotiate = 22,
             SetMapHWnd = 23,
 // ZIPPY REV 80            SetFwdHWnd = 24,
@@ -770,7 +770,7 @@ namespace Assistant
                 try
                 {
                     ClientProc = Process.GetProcessById( (int)pid );
-                    if ( ClientProc != null && !Config.GetBool( "SmartCPU" ) )
+                    if ( ClientProc != null )
                         ClientProc.PriorityClass = (ProcessPriorityClass)Enum.Parse( typeof(ProcessPriorityClass), Config.GetString( "ClientPrio" ), true );
                 }
                 catch
