@@ -1075,6 +1075,7 @@ namespace Assistant
 
         private static void CalibrateNow()
         {
+ 
             m_CalTimer = null;
 
             if ( World.Player == null )
@@ -1101,7 +1102,7 @@ namespace Assistant
 
         public static void BeginCalibratePosition()
         {
-            if ( World.Player == null || IsCalibrated() )
+            if ( World.Player == null || (IsCalibrated() && PlayerData.ExternalZ))
                 return;
 
             if ( m_CalTimer != null )
