@@ -1993,6 +1993,8 @@ namespace Assistant.Macros
             LHandEmpty,
 
             PlayerMessage, ///< Added by Calin to support player-only messages such as purple pots still held by player
+            Hidden, ///< Added by Calin 11/21/2017 to support if (hidden) for more elegant hiding/stealth training macros
+
 
             BeginCountersMarker,
 
@@ -2119,6 +2121,11 @@ namespace Assistant.Macros
                         return false;
                 }
 
+                case IfVarType.Hidden:
+                {
+                    return !World.Player.Visible;
+                }
+
                 case IfVarType.PlayerMessage:
                 case IfVarType.SysMessage:
                 {
@@ -2234,6 +2241,8 @@ namespace Assistant.Macros
                     return "If ( L-Hand Empty )";
                 case IfVarType.Counter:
                     return String.Format( "If ( \"{0} count\" {1} {2} )", m_Counter, m_Direction > 0 ? ">=" : "<=", m_Value );
+                case IfVarType.Hidden:
+                    return "If ( Hidden )";
                 default:
                     return "If ( ??? )";
             }

@@ -116,7 +116,8 @@ namespace Assistant
                                                           "Weight",
                                                           "Mounted",
                                                           "R Hand Empty",
-                                                          "L Hand Empty"});
+                                                          "L Hand Empty",
+                                                          "Hidden"});
             this.varList.Location = new System.Drawing.Point(24, 8);
             this.varList.Name = "varList";
             this.varList.Size = new System.Drawing.Size(80, 21);
@@ -135,11 +136,12 @@ namespace Assistant
                 IfAction.IfVarType.Weight,
                 IfAction.IfVarType.Mounted,
                 IfAction.IfVarType.RHandEmpty,
-                IfAction.IfVarType.LHandEmpty 
+                IfAction.IfVarType.LHandEmpty,
+                IfAction.IfVarType.Hidden
             };
 
             ifVar2Cb = new int[] {
-                0,1,2,3,4,6,7,8,9,5
+                0,1,2,3,4,6,7,8,9,5,10
             };
 
             // cancel
