@@ -19,6 +19,7 @@ namespace Assistant.Macros
         private bool m_Loaded;
         private ListBox m_ListBox;
         private Stack m_IfStatus;
+        private int m_ExecDelayMS;
 
         public Macro( string path )
         {
@@ -26,6 +27,7 @@ namespace Assistant.Macros
             m_Path = path;
             m_Loaded = false;
             m_IfStatus = new Stack();
+            m_ExecDelayMS = (int)MacroManager.DefMacroStepTimeMS;
         }
 
         public string Filename { get{ return m_Path; } set { m_Path = value; } }
@@ -34,6 +36,7 @@ namespace Assistant.Macros
         public bool Playing { get{ return m_Playing; } }
         public bool Waiting{ get{ return m_Wait != null; } }
         public int CurrentAction { get{ return m_CurrentAction; } }
+        public int ExecDelayMS { get { return m_ExecDelayMS; } set { m_ExecDelayMS = value; } }
 
         public bool Loop
         {
@@ -41,7 +44,7 @@ namespace Assistant.Macros
             set { m_Loop = value; }
         }
 
-        public void DisplayTo( ListBox list )
+        public void DisplayTo( ListBox list, CheckBox loop=null, TextBox delay=null )
         {
             m_ListBox = list;
 
@@ -58,6 +61,9 @@ namespace Assistant.Macros
             else
                 m_ListBox.SelectedIndex = -1;
             m_ListBox.EndUpdate();
+
+            if (loop != null) loop.Checked = this.Loop;
+            if (delay != null) delay.Text = this.ExecDelayMS.ToString();
         }
 
         public override string ToString()
@@ -110,6 +116,7 @@ namespace Assistant.Macros
                 m_CurrentAction = -1;
                 if ( m_ListBox != null )
                     m_ListBox.SelectedIndex = -1;
+                LoopDelay = TimeSpan.FromMilliseconds(ExecDelayMS * 2);
             }
         }
 
@@ -128,6 +135,7 @@ namespace Assistant.Macros
                 m_CurrentAction = at-1;
                 if ( m_CurrentAction >= 0 )
                     m_CurrentAction--;
+                LoopDelay = TimeSpan.FromMilliseconds(ExecDelayMS * 2);
             }
         }
 
@@ -202,6 +210,8 @@ namespace Assistant.Macros
                 if ( m_Loop )
                     writer.WriteLine( "!Loop" );
 
+                writer.WriteLine(string.Format("!ExecDelayMS={0}", m_ExecDelayMS));
+
                 for (int i=0;i<m_Actions.Count;i++)
                 {
                     MacroAction a = (MacroAction)m_Actions[i];
@@ -236,6 +246,23 @@ namespace Assistant.Macros
                     if ( line == "!Loop" )
                     {
                         m_Loop = true;
+                        continue;
+                    }
+
+                    if ( line.StartsWith("!ExecDelayMS=") )
+                    {
+                        string[] nvp = line.Split('=');
+                        if (nvp.Length >= 2)
+                        {
+                            try {
+                                int ms;
+                                if ((ms = Int32.Parse(nvp[1])) >= 0)
+                                {
+                                    this.ExecDelayMS = ms;
+                                } 
+                            }
+                            catch { }
+                        }
                         continue;
                     }
 
@@ -337,7 +364,7 @@ namespace Assistant.Macros
                 return false;
         }
 
-        private static MacroWaitAction PauseB4Loop = new PauseAction( TimeSpan.FromSeconds( 0.1 ) );
+        private static MacroWaitAction PauseB4Loop = new PauseAction( TimeSpan.FromMilliseconds( MacroManager.DefMacroStepTimeMS*2 ) );
 
         public static TimeSpan LoopDelay
         {

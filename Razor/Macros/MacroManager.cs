@@ -8,6 +8,9 @@ namespace Assistant.Macros
 {    
     public class MacroManager
     {
+
+        public static int DefMacroStepTimeMS = 50;
+ 
         private static ArrayList m_List;
         private static Macro m_Current, m_PrevPlay;
         private static MacroTimer m_Timer;
@@ -95,6 +98,7 @@ namespace Assistant.Macros
 
             LiftAction.LastLift = null;
             m_Current = m;
+            MacroLineDelay = TimeSpan.FromMilliseconds(m_Current.ExecDelayMS);
             m_Current.PlayAt( at );
 
             m_Timer.Macro = m_Current;
@@ -137,6 +141,7 @@ namespace Assistant.Macros
 
             LiftAction.LastLift = null;
             m_Current = m;
+            MacroLineDelay = TimeSpan.FromMilliseconds(m_Current.ExecDelayMS); // set the line delay here.. on the timer
             m_Current.Play();
 
             m_Timer.Macro = m_Current;
@@ -246,12 +251,12 @@ namespace Assistant.Macros
             }
         }
 
-        public static void Select( Macro m, ListBox actionList, Button play, Button rec, CheckBox loop )
+        public static void Select( Macro m, ListBox actionList, Button play, Button rec, CheckBox loop, TextBox delay )
         {
             if ( m == null )
                 return;
 
-            m.DisplayTo( actionList );
+            m.DisplayTo( actionList, loop, delay );
 
             if ( Recording )
             {
@@ -274,7 +279,6 @@ namespace Assistant.Macros
                     rec.Enabled = true;
                 }
                 rec.Text = "Record";
-                loop.Checked = m.Loop;
             }
         }
 
@@ -289,9 +293,8 @@ namespace Assistant.Macros
         private class MacroTimer : Timer
         {
             private Macro m_Macro;
-            private static double defMacroStepTimeMS = 50;
             
-            public MacroTimer() : base( TimeSpan.FromMilliseconds( defMacroStepTimeMS ), TimeSpan.FromMilliseconds( defMacroStepTimeMS ) )
+            public MacroTimer() : base( TimeSpan.FromMilliseconds( DefMacroStepTimeMS ), TimeSpan.FromMilliseconds( DefMacroStepTimeMS ) )
             {
             }
 

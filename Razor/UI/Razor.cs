@@ -3027,7 +3027,7 @@ namespace Assistant
             dressList.SelectedIndex = -1;
             hotkeyTree.SelectedNode = null;
 
-            lineDelayTB.Text = Config.GetInt("MacroLineDelay").ToString();
+            lineDelayTB.Text = MacroManager.DefMacroStepTimeMS.ToString();
             sysMsgHistoryLen.Text = Config.GetInt("SysMessageHistoryLen").ToString();
 
             m_Initializing = false;
@@ -3093,7 +3093,7 @@ namespace Assistant
                     OnMacroStop();
 
                 if ( MacroManager.Current != null )
-                    MacroManager.Current.DisplayTo( actionList );
+                    MacroManager.Current.DisplayTo( actionList, loopMacro, lineDelayTB );
 
                 macroActGroup.Visible = macroTree.SelectedNode != null;
             }
@@ -4590,7 +4590,7 @@ namespace Assistant
             macroTree.SelectedNode = FindNode( macroTree.Nodes, m );
             macroTree.Update();
             macroTree.Refresh();
-            m.DisplayTo( actionList );
+            m.DisplayTo( actionList, loopMacro, lineDelayTB );
         }
 
         public void PlayMacro( Macro m )
@@ -4782,7 +4782,7 @@ namespace Assistant
 
             Macro m = e.Node.Tag as Macro;
             macroActGroup.Visible = m != null;
-            MacroManager.Select( m, actionList, playMacro, recMacro, loopMacro );
+            MacroManager.Select( m, actionList, playMacro, recMacro, loopMacro, lineDelayTB);
         }
 
         private void delMacro_Click(object sender, System.EventArgs e)
@@ -5031,7 +5031,7 @@ namespace Assistant
         private void RedrawActionList( Macro m )
         {
             int sel = actionList.SelectedIndex;
-            m.DisplayTo( actionList );
+            m.DisplayTo( actionList, loopMacro, lineDelayTB );
             actionList.SelectedIndex = sel;
         }
 
@@ -6028,10 +6028,16 @@ namespace Assistant
 
         private void lineDelayTB_TextChanged(object sender, EventArgs e)
         {
-            int delayms; 
-            Config.SetProperty("MacroLineDelay", (delayms = Utility.ToInt32(lineDelayTB.Text.Trim(), Config.GetInt("MacroLineDelay"))));
-            MacroManager.MacroLineDelay = TimeSpan.FromMilliseconds(delayms);
-            Macros.Macro.LoopDelay = TimeSpan.FromMilliseconds(delayms * 2);
+            Macro m = GetMacroSel(); ;
+            if (m == null)
+                return;
+            int delayms = Utility.ToInt32(lineDelayTB.Text.Trim(), MacroManager.DefMacroStepTimeMS);
+            if (delayms >= 0)
+            {
+                m.ExecDelayMS = delayms;
+                // enforce the change immediately in case the macro is currently running?
+                MacroManager.MacroLineDelay = TimeSpan.FromMilliseconds(delayms);
+            }
         }
 
         private void sysMsgHistoryLen_TextChanged(object sender, EventArgs e)
