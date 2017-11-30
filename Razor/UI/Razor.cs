@@ -3027,7 +3027,6 @@ namespace Assistant
             dressList.SelectedIndex = -1;
             hotkeyTree.SelectedNode = null;
 
-            lineDelayTB.Text = MacroManager.DefMacroStepTimeMS.ToString();
             sysMsgHistoryLen.Text = Config.GetInt("SysMessageHistoryLen").ToString();
 
             m_Initializing = false;
