@@ -264,10 +264,11 @@ namespace Assistant.Macros
 
             if ( m_Item )
             {
-                Item item = World.Player.Backpack != null ? World.Player.Backpack.FindItemByID( m_Gfx ) : null;
-                ArrayList list = new ArrayList();
-                if ( item == null )
+                // first look for all items in backpack
+                ArrayList list = World.Player.Backpack != null ? World.Player.Backpack.FindAllItemsByID(m_Gfx) : new ArrayList();
+                if ( list.Count <= 0 )
                 {
+                    // ok, item id not found in backpack.. next look in the world but not in a container..
                     foreach ( Item i in World.Items.Values )
                     {
                         if ( i.ItemID == m_Gfx && i.RootContainer == null )
@@ -275,6 +276,7 @@ namespace Assistant.Macros
                     }
                     if ( list.Count == 0 )
                     {
+                        // ok, finally look in containers too
                         foreach ( Item i in World.Items.Values )
                         {
                             if ( i.ItemID == m_Gfx )
@@ -285,13 +287,9 @@ namespace Assistant.Macros
                         }
                     }
 
-                    if ( list.Count > 0 )
-                        click = ((Item)list[ Utility.Random( list.Count ) ]).Serial;
                 }
-                else
-                {
-                    click = item.Serial;
-                }
+                if (list.Count > 0)
+                    click = ((Item)list[Utility.Random(list.Count)]).Serial; 
             }
             else
             {
@@ -463,10 +461,10 @@ namespace Assistant.Macros
         private int m_Id;
         public override bool Perform()
         {
-            Item item = World.Player.Backpack != null ? World.Player.Backpack.FindItemByID( m_Gfx ) : null;
-            /*if ( item == null )
+            ArrayList list = World.Player.Backpack != null ? World.Player.Backpack.FindAllItemsByID(m_Gfx) : new ArrayList();
+            /*if ( list.Count == 0 )
             {
-                ArrayList list = new ArrayList();
+                //ArrayList list = new ArrayList();
 
                 foreach ( Item i in World.Items.Values )
                 {
@@ -474,10 +472,10 @@ namespace Assistant.Macros
                         list.Add( i );
                 }
 
-                if ( list.Count > 0 )
-                    item = (Item)list[ Utility.Random( list.Count ) ];
+                //if ( list.Count > 0 )
+                //    item = (Item)list[ Utility.Random( list.Count ) ];
             }*/
-
+            Item item = list.Count > 0 ? ((Item)list[Utility.Random(list.Count)]) : null;
             if ( item != null )
             {
                 //DragDropManager.Holding = item;

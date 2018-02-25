@@ -266,6 +266,35 @@ namespace Assistant
             return null;
         }
 
+        public ArrayList FindAllItemsByID(ItemID id) 
+        { 
+            return FindAllItemsByID(id, true); 
+        }
+
+        public ArrayList FindAllItemsByID( ItemID id, bool recurse )
+        {
+            ArrayList list = new ArrayList();
+            // breadth-first search
+            for (int i=0;i<m_Items.Count;i++)
+            {
+                Item item = (Item)m_Items[i];
+                if ( item.ItemID == id )
+                {
+                    list.Add(item);
+                }
+            }
+            if (recurse)
+            {
+                // next, drill down to next level
+                for (int i = 0; i < m_Items.Count; i++)
+                {
+                    Item item = (Item)m_Items[i];
+                    list.AddRange(item.FindAllItemsByID(id, true));
+                }
+            }
+            return list;
+        }
+
         public int GetCount( ushort iid )
         {
             int count = 0;
